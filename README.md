@@ -1,13 +1,13 @@
 # More Demons
 The **Extreme Demon** is the highest difficulty in Geometry Dash.  
-But is **Tidal Wave** and **Acu** the same difficulty? I think not! 
+But are **Tidal Wave** and **Acu** the same difficulty? I think not! 
 Want to change that? This mod is here for you!
 
 ## Features
 - Up to **6 new demon difficulties** above Extreme Demon!
 - Demon List integration!
 
-*Additionally, the highest difficulties have their own backgrounds for the level page! (optional)**
+*Additionally, the highest difficulties have their own backgrounds for the level page! (optional)*
 
 ## New Demon Difficulties
 The difficulties of Extreme Demons are chosen based on their positions on the AREDL.
@@ -17,6 +17,8 @@ The difficulties of Extreme Demons are chosen based on their positions on the AR
 - **Top 150 Demons** - Twisted Demon
 - **Top 75 Demons** - Diabolical Demon
 - **Top 25 Demons** - Infernal Demon
-- **Top 1 Demon** - Omega Demon
+- **Top 1 Demon** - Omega Demon *(optional)*
 
-**Note**: Omega Demon is optional and can be disabled in the mod's settings.
+### Dependencies
+
+**Note:** This mod requires **Node IDs** to work!
