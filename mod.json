@@ -1,6 +1,6 @@
 {
 	"geode": "4.4.0",
-	"version": "v1.0.4",
+	"version": "v1.0.0",
 	"gd": {
 		"win": "2.2074",
 		"android": "2.2074",
@@ -24,21 +24,21 @@
 		]
     },
 	"settings": {
+		"show-list-position": {
+			"name": "Show List Position",
+			"description": "Adds text that shows the position of the Demon on the list.",
+			"type": "bool",
+			"default": true
+		},
 		"omega-demon-disable": {
 			"name": "Disable Omega Demon",
 			"description": "Disables the Omega Demon difficulty for the current Top 1 Demon (replaced with Infernal Demon instead).",
 			"type": "bool",
 			"default": false
 		},
-		"infinite-demon-disable": {
+		"disable-bg": {
 			"name": "Disable BG Effects",
 			"description": "Removes the background effects from Twisted+ Demon pages.",
-			"type": "bool",
-			"default": false
-		},
-		"particles-disable": {
-			"name": "Disable Particles",
-			"description": "Removes particles from Twisted+ Demon pages.",
 			"type": "bool",
 			"default": false
 		}

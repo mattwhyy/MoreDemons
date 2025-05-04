@@ -5,13 +5,10 @@ using namespace geode::prelude;
 
 class EffectsManager {
     public:
-        inline static void addInfinitySymbol(CCPoint iconPos, CCNode* layer, int aredlPos) {
-            return;
-        }
 
         inline static void infinityBackground(LevelInfoLayer* layer, int aredlPos) {
             
-            if (Mod::get()->getSettingValue<bool>("infinite-demon-disable")) {
+            if (Mod::get()->getSettingValue<bool>("disable-bg")) {
                 return;
             }
 
@@ -150,9 +147,9 @@ class EffectsManager {
             bg2->runAction(alpha_rseq2);
 
             if (aredlPos == 0 && !Mod::get()->getSettingValue<bool>("omega-demon-disable")) {
-                bg1->setColor({ 121, 80, 255 });
-                bg2->setColor({ 233, 200, 255 });
-                bg->setColor({ 31, 0, 75 });
+                bg1->setColor({ 0, 0, 0 });
+                bg2->setColor({ 95, 0, 0 });
+                bg->setColor({ 22, 22, 22 });
             }
         }
 
@@ -161,7 +158,7 @@ class EffectsManager {
 
         inline static void mythicalBackground(LevelInfoLayer* layer, int aredlPos) {
             
-            if (Mod::get()->getSettingValue<bool>("infinite-demon-disable")) {
+            if (Mod::get()->getSettingValue<bool>("disable-bg")) {
                 return;
             }
 
@@ -246,7 +243,7 @@ class EffectsManager {
 
         inline static void legendaryBackground(LevelInfoLayer* layer, int aredlPos) {
             
-            if (Mod::get()->getSettingValue<bool>("infinite-demon-disable")) {
+            if (Mod::get()->getSettingValue<bool>("disable-bg")) {
                 return;
             }
 
@@ -262,7 +259,7 @@ class EffectsManager {
             }
 
             bg->setZOrder(-10);
-            bg->setColor({ 207, 112, 254 });
+            bg->setColor({ 125, 0, 200 });
 
             auto winSize = CCDirector::sharedDirector()->getWinSize();
             ccBlendFunc blending = {GL_ONE, GL_ONE};
@@ -287,7 +284,7 @@ class EffectsManager {
             float bg1_scale = winSize.width / bg1->getContentSize().width; 
             bg1->setOpacity(0);
             bg1->setScale(bg1_scale);
-            bg1->setColor({ 55, 48, 78 });
+            bg1->setColor({ 50, 0, 180 });
             layer->addChild(bg1);
             bg1->setAnchorPoint({0.5, 0});
             bg1->setPosition({winSize.width / 2, 0});

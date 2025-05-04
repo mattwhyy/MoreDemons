@@ -78,8 +78,40 @@ class $modify(LevelCell) {
 
         layer->addChild(newIcon);
 
-        if (aredlPos <= 24) {
-            EffectsManager::addInfinitySymbol(newIcon->getPosition(), layer, aredlPos);
+        if (Mod::get()->getSettingValue<bool>("show-list-position")) {
+            // Add "Top X" label if position is valid
+            if (aredlPos >= 0 && aredlPos <= 499) {
+                // Default Y position of the difficulty icon
+                float defaultPosY = originalIcon->getPositionY();
+                auto label = CCLabelBMFont::create(fmt::format("#{}", aredlPos + 1).c_str(), "goldFont.fnt");
+                label->setScale(0.4f);
+                label->setAnchorPoint({ 0.5f, 0.5f });
+
+                if (CCNode* difficultyContainer = m_mainLayer->querySelector("grd-demon-icon-layer")) {
+                    if (CCNode* coin1 = difficultyContainer->querySelector("coin-icon-1")) {
+                        coin1->setPositionY({ coin1->getPositionY() + 3.f });
+                        label->setPosition({ newIcon->getPositionX() +26.f, newIcon->getPositionY() -6.5f});
+                    }
+                    else {
+                        label->setPosition({ newIcon->getPositionX() +26.f, newIcon->getPositionY() +2.5f});
+                    }
+                    if (CCNode* coin2 = difficultyContainer->querySelector("coin-icon-2")) {
+                        coin2->setPositionY({ coin2->getPositionY() + 3.f });
+                    }
+                    if (CCNode* coin3 = difficultyContainer->querySelector("coin-icon-3")) {
+                        coin3->setPositionY({ coin3->getPositionY() + 3.f });
+                    }
+                }
+                else {
+                    geode::log::info("Difficulty container not found!");
+                }
+
+                // Set the label's Z-order to be one higher than the icon's Z-order
+                label->setZOrder(newIcon->getZOrder() + 1);
+
+                // Add the label as a child to the current layer
+                this->addChild(label);
+            }
         }
     }
 };

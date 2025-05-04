@@ -81,6 +81,25 @@ class $modify(GrDInfoLayer, LevelInfoLayer) {
         originalIcon->setVisible(false);
 
         this->addChild(newIcon);
+
+        if (Mod::get()->getSettingValue<bool>("show-list-position")) {
+            // Add "Top X" label if position is valid
+            if (aredlPos >= 0 && aredlPos <= 499) {
+                // Default Y position of the difficulty icon
+                float defaultPosY = originalIcon->getPositionY();
+                auto label = CCLabelBMFont::create(fmt::format("#{}", aredlPos + 1).c_str(), "goldFont.fnt");
+                label->setScale(0.4f);
+                label->setAnchorPoint({ 0.5f, 0.5f });
+
+                label->setPosition({ newIcon->getPositionX() + 26.f, newIcon->getPositionY() - 6.5f });
+
+                // Set the label's Z-order to be one higher than the icon's Z-order
+                label->setZOrder(newIcon->getZOrder() + 1);
+
+                // Add the label as a child to the current layer
+                this->addChild(label);
+            }
+        }
         
         if (m_fields->m_hasBeenOpened) {
             return;
@@ -88,9 +107,8 @@ class $modify(GrDInfoLayer, LevelInfoLayer) {
 
         if (aredlPos <= 24) {
             EffectsManager::infinityBackground(this, aredlPos);
-            EffectsManager::addInfinitySymbol(newIcon->getPosition(), this, aredlPos);
 
-            if (!Mod::get()->getSettingValue<bool>("particles-disable")) {
+            if (!Mod::get()->getSettingValue<bool>("disable-bg")) {
                 bool isGrandpa = false;
 
                 if (aredlPos == 0 && !Mod::get()->getSettingValue<bool>("omega-demon-disable")) {
@@ -111,7 +129,7 @@ class $modify(GrDInfoLayer, LevelInfoLayer) {
         if (aredlPos <= 74 && aredlPos > 24) {
             EffectsManager::mythicalBackground(this, aredlPos);
 
-            if (!Mod::get()->getSettingValue<bool>("particles-disable")) {
+            if (!Mod::get()->getSettingValue<bool>("disable-bg")) {
                 auto particle = ParticleManager::mythicalParticles(50);
                 particle->setPosition({newIcon->getPositionX(), newIcon->getPositionY() + 5.f});
                 this->addChild(particle);
@@ -122,7 +140,7 @@ class $modify(GrDInfoLayer, LevelInfoLayer) {
         if (aredlPos <= 149 && aredlPos > 74) {
             EffectsManager::legendaryBackground(this, aredlPos);
 
-            if (!Mod::get()->getSettingValue<bool>("particles-disable")) {
+            if (!Mod::get()->getSettingValue<bool>("disable-bg")) {
                 auto particle = ParticleManager::legendaryParticles(50);
                 particle->setPosition({newIcon->getPositionX(), newIcon->getPositionY() + 5.f});
                 this->addChild(particle);
