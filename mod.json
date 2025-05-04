@@ -1,0 +1,48 @@
+{
+	"geode": "4.4.0",
+	"version": "v1.0.4",
+	"gd": {
+		"win": "2.2074",
+		"android": "2.2074",
+		"mac": "2.2074"
+	},
+	"id": "mattwhyy.more_demons",
+	"name": "More Demons",
+	"developer": "mattwhyy",
+	"description": "Adds additional demon difficulties above Extreme",
+	"resources": {
+        "spritesheets": {
+			"GrD_IconSheet": [
+				"resources/demons/*.png"
+			],
+			"GrD_ReadmeSheet": [
+				"resources/readme/*.png"
+			]
+		},
+		"sprites": [
+			"resources/GrD_demon4_bg.png"
+		]
+    },
+	"settings": {
+		"omega-demon-disable": {
+			"name": "Disable Omega Demon",
+			"description": "Disables the Omega Demon difficulty for the current Top 1 Demon (replaced with Infernal Demon instead).",
+			"type": "bool",
+			"default": false
+		},
+		"infinite-demon-disable": {
+			"name": "Disable BG Effects",
+			"description": "Removes the background effects from Twisted+ Demon pages.",
+			"type": "bool",
+			"default": false
+		},
+		"particles-disable": {
+			"name": "Disable Particles",
+			"description": "Removes particles from Twisted+ Demon pages.",
+			"type": "bool",
+			"default": false
+		}
+	},
+	"tags": ["online", "enhancement", "interface"],
+	"repository": "https://github.com/mattwhyy/MoreDemons"
+}
