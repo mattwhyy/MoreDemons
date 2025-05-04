@@ -3,6 +3,8 @@ The **Extreme Demon** is the highest difficulty in Geometry Dash.
 But are **Tidal Wave** and **Acu** the same difficulty? I think not! 
 Want to change that? This mod is here for you!
 
+- The mod is based on the now-unmaintained **Grandpa Demon** mod, with improvements, additional features, and updated support.
+
 ## Features
 - Up to **6 new demon difficulties** above Extreme Demon!
 - Demon List integration!
