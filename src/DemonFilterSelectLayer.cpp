@@ -12,14 +12,13 @@ class $modify(MDDemonFilterSelectLayer, DemonFilterSelectLayer) {
         CCSprite* m_demon4Spr = nullptr;
         CCSprite* m_demon5Spr = nullptr;
     };
-    
 
-    static void onModify(auto &self) {
+
+    static void onModify(auto & self) {
         self.setHookPriority("DemonFilterSelectLayer::init", -1);
     }
 
     bool init() {
-        
         DemonFilterSelectLayer::init();
 
         if (ListManager::demonIDList.empty()) {
@@ -39,18 +38,21 @@ class $modify(MDDemonFilterSelectLayer, DemonFilterSelectLayer) {
         CCScale9Sprite* s9spr = nullptr;
         CCLabelBMFont* label = nullptr;
         CCMenu* menu = nullptr;
-        
+
         CCObject* obj;
         CCARRAY_FOREACH(layer->getChildren(), obj) {
             if (auto newObj = dynamic_cast<CCScale9Sprite*>(obj)) {
                 s9spr = newObj;
-            } else if (auto newObj2 = dynamic_cast<CCLabelBMFont*>(obj)) {
+            }
+            else if (auto newObj2 = dynamic_cast<CCLabelBMFont*>(obj)) {
                 label = newObj2;
-            } else if (auto newObj3 = dynamic_cast<CCMenu*>(obj)) {
+            }
+            else if (auto newObj3 = dynamic_cast<CCMenu*>(obj)) {
                 menu = newObj3;
             }
         }
 
+        CCSpriteFrameCache::sharedSpriteFrameCache()->addSpriteFramesWithFile("resources/difficulty_sprites/spritesheet.plist");
 
         CCMenuItemSpriteExtra* okButton = nullptr;
         CCObject* obj_ok;
@@ -64,7 +66,7 @@ class $modify(MDDemonFilterSelectLayer, DemonFilterSelectLayer) {
         }
 
         auto csize = s9spr->getContentSize();
-        s9spr->setContentSize({csize.width, csize.height * 1.1f});
+        s9spr->setContentSize({ csize.width, csize.height * 1.1f });
         auto newcsize = s9spr->getContentSize();
         label->setPositionY(newcsize.height + 45.f);
         label->setScale(0.8f);
@@ -74,16 +76,16 @@ class $modify(MDDemonFilterSelectLayer, DemonFilterSelectLayer) {
         handleTouchPriority(this);
         auto newMenu = CCMenu::create();
         layer->addChild(newMenu);
-        newMenu->setPosition({layer->getContentSize().width / 2 - 3, layer->getContentSize().height - 180.f});
+        newMenu->setPosition({ layer->getContentSize().width / 2 - 3, layer->getContentSize().height - 180.f });
         newMenu->setLayout(RowLayout::create()
-        ->setGap(-0.1f)
-        ->setAxisAlignment(AxisAlignment::Center));
+            ->setGap(-0.1f)
+            ->setAxisAlignment(AxisAlignment::Center));
 
         auto demon0Spr = CCSprite::createWithSpriteFrameName("brutal_demon.png"_spr);
         this->m_fields->m_demon0Spr = demon0Spr;
         auto demon0Btn = CCMenuItemSpriteExtra::create(demon0Spr, this, menu_selector(MDDemonFilterSelectLayer::onButton0));
         newMenu->addChild(demon0Btn);
-        
+
         auto demon1Spr = CCSprite::createWithSpriteFrameName("vicious_demon.png"_spr);
         this->m_fields->m_demon1Spr = demon1Spr;
         auto demon1Btn = CCMenuItemSpriteExtra::create(demon1Spr, this, menu_selector(MDDemonFilterSelectLayer::onButton1));
@@ -108,45 +110,45 @@ class $modify(MDDemonFilterSelectLayer, DemonFilterSelectLayer) {
         this->m_fields->m_demon5Spr = demon5Spr;
         auto demon5Btn = CCMenuItemSpriteExtra::create(demon5Spr, this, menu_selector(MDDemonFilterSelectLayer::onButton5));
         newMenu->addChild(demon5Btn);
-       
+
         newMenu->updateLayout();
-        
+
         return true;
     }
 
-    void onButton0(CCObject* sender) {
+    void onButton0(CCObject * sender) {
         ListManager::filterType = 0;
-        ListManager::isSupremeSearching = true;
-        auto browserLayer = LevelBrowserLayer::create(ListManager::getSearchObject(349, 249)); 
+        ListManager::Searching = true;
+        auto browserLayer = LevelBrowserLayer::create(ListManager::getSearchObject(349, 249));
         geode::cocos::switchToScene(browserLayer);
     }
-    void onButton1(CCObject* sender) {
+    void onButton1(CCObject * sender) {
         ListManager::filterType = 1;
-        ListManager::isSupremeSearching = false;
+        ListManager::Searching = false;
         auto browserLayer = LevelBrowserLayer::create(ListManager::getSearchObject(249, 149));
         geode::cocos::switchToScene(browserLayer);
     }
-    void onButton2(CCObject* sender) {
+    void onButton2(CCObject * sender) {
         ListManager::filterType = 2;
-        ListManager::isSupremeSearching = false;
+        ListManager::Searching = false;
         auto browserLayer = LevelBrowserLayer::create(ListManager::getSearchObject(149, 74));
         geode::cocos::switchToScene(browserLayer);
     }
-    void onButton3(CCObject* sender) {
+    void onButton3(CCObject * sender) {
         ListManager::filterType = 3;
-        ListManager::isSupremeSearching = false;
+        ListManager::Searching = false;
         auto browserLayer = LevelBrowserLayer::create(ListManager::getSearchObject(74, 24));
         geode::cocos::switchToScene(browserLayer);
     }
-    void onButton4(CCObject* sender) {
+    void onButton4(CCObject * sender) {
         ListManager::filterType = 4;
-        ListManager::isSupremeSearching = false;
+        ListManager::Searching = false;
         auto browserLayer = LevelBrowserLayer::create(ListManager::getSearchObject(24, 0));
         geode::cocos::switchToScene(browserLayer);
     }
-    void onButton5(CCObject* sender) {
+    void onButton5(CCObject * sender) {
         ListManager::filterType = 5;
-        ListManager::isSupremeSearching = false;
+        ListManager::Searching = false;
         auto browserLayer = LevelBrowserLayer::create(ListManager::getSearchObject(0, 0));
         geode::cocos::switchToScene(browserLayer);
     }

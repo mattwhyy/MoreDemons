@@ -11,7 +11,7 @@ The mod is based on the now-outdated **[Grandpa Demon](https://github.com/ItzKib
 
 *Additionally, the highest difficulties have their own backgrounds for the level page! (optional)*
 
-![Title](resources/readme/difficulties.png)
+![Title](resources/levelpreview.png)
 
 ## New Difficulties
 The difficulties of Extreme Demons are chosen based on their positions on the [AREDL](https://aredl.net/).
@@ -21,9 +21,9 @@ The difficulties of Extreme Demons are chosen based on their positions on the [A
 - **Top 150 Demons** - Twisted Demon
 - **Top 75 Demons** - Diabolical Demon
 - **Top 25 Demons** - Infernal Demon
-- **Top 1 Demon** - Omega Demon *(optional)*
+- **Top 1 Demon** - Omega Demon
 
-![Title](resources/readme/demons.png)
+![Title](resources/levelcellprev.png)
 
 ## Credits
 

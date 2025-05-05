@@ -5,93 +5,103 @@
 class $modify(MDLevelBrowserLayer, LevelBrowserLayer) {
 
     struct Fields {
-        int m_currentPage = 0;
-        int m_furthestLoadedPage = 0;
-        int m_lowIdx = 0;
+        int m_currentPage;
+        int m_furthestLoadedPage;
+        int m_lowIdx;
     };
 
-    bool init(GJSearchObject* p0) {
-
-        if (!ListManager::isSupremeSearching) {
-            LevelBrowserLayer::init(p0);
-            return true;
+    bool init(GJSearchObject * p0) {
+        if (shouldUseDefaultBehavior(p0)) {
+            return LevelBrowserLayer::init(p0);
         }
 
-        if (p0->m_searchType != SearchType::Type19) {
-            LevelBrowserLayer::init(p0);
-            return true;
-        }
-
-        this->m_fields->m_currentPage = 0;
-        int page = this->m_fields->m_currentPage;
-        this->m_fields->m_lowIdx = page * 10;
-
-        LevelBrowserLayer::init(ListManager::getSearchObject(499, 489));
-        return true;
+        setupCustomInitialState();
+        return LevelBrowserLayer::init(ListManager::getSearchObject(499, 489));
     }
 
-    void loadLevelsFinished(cocos2d::CCArray* p0, char const* p1, int p2) {
+    void loadLevelsFinished(CCArray * p0, char const* p1, int p2) {
         LevelBrowserLayer::loadLevelsFinished(p0, p1, p2);
-        if (!ListManager::isSupremeSearching) {
-            return;
-        }
-        if (this->m_searchObject->m_searchType != SearchType::Type19) {
-            return;
-        }
-        auto prevBtn = this->m_leftArrow;
-        auto nextBtn = this->m_rightArrow;
 
-        hideStuff();
+        if (!shouldProcessCustomBehavior()) return;
 
-        prevBtn->setVisible(true);
-        nextBtn->setVisible(true);
-
-        if (this->m_fields->m_currentPage <= 0) {
-            prevBtn->setVisible(false);
-        } else if (this->m_fields->m_currentPage >= 24) {
-            nextBtn->setVisible(false);
-        }
+        updateNavigationUI();
+        validatePageBounds();
     }
 
-    void onNextPage(CCObject* sender) {
+    void onNextPage(CCObject * sender) {
         LevelBrowserLayer::onNextPage(sender);
-        if (!ListManager::isSupremeSearching) {
-            return;
-        }
-        if (this->m_searchObject->m_searchType != SearchType::Type19) {
-            return;
-        }
+        if (!shouldProcessCustomBehavior()) return;
 
-        if (this->m_fields->m_currentPage < 24) {
-            this->m_fields->m_currentPage += 1;
-        }
-        nextBtnActions();
-        
+        handlePageNavigation(true);
     }
 
-    void onPrevPage(CCObject* sender) {
+    void onPrevPage(CCObject * sender) {
         LevelBrowserLayer::onPrevPage(sender);
-        if (!ListManager::isSupremeSearching) {
-            return;
-        }
-        if (this->m_searchObject->m_searchType != SearchType::Type19) {
-            return;
-        }
-        if (this->m_fields->m_currentPage > 0) {
-            this->m_fields->m_currentPage -= 1;
-        }
-        nextBtnActions();
-        
+        if (!shouldProcessCustomBehavior()) return;
+
+        handlePageNavigation(false);
     }
 
-    void nextBtnActions() {
-        hideStuff();
-        LevelBrowserLayer::loadPage(ListManager::getSearchObject(499 - this->m_fields->m_currentPage * 10, 489 - this->m_fields->m_currentPage * 10));
+private:
+    bool shouldUseDefaultBehavior(GJSearchObject * obj) const {
+        return !ListManager::Searching ||
+            obj->m_searchType != SearchType::Type19;
     }
 
-    void hideStuff() {
+    bool shouldProcessCustomBehavior() const {
+        return ListManager::Searching &&
+            this->m_searchObject->m_searchType == SearchType::Type19;
+    }
+
+    void setupCustomInitialState() {
+        this->m_fields->m_currentPage = 0;
+        this->m_fields->m_lowIdx = 0;
+    }
+
+    void updateNavigationUI() {
+        this->m_leftArrow->setVisible(this->m_fields->m_currentPage > 0);
+        this->m_rightArrow->setVisible(this->m_fields->m_currentPage < 24);
         this->m_pageBtn->setVisible(false);
-        this->m_countText->setString(fmt::format("{} to {} of 250", this->m_fields->m_currentPage * 10 + 1, this->m_fields->m_currentPage * 10 + 10).c_str());
+
+        updateCountText();
+    }
+
+    void updateCountText() {
+        int start = this->m_fields->m_currentPage * 10 + 1;
+        this->m_countText->setString(
+            fmt::format("{} to {} of 250", start, start + 9).c_str()
+        );
+    }
+
+    void validatePageBounds() {
+        if (this->m_fields->m_currentPage <= 0) {
+            this->m_leftArrow->setVisible(false);
+        }
+        else if (this->m_fields->m_currentPage >= 24) {
+            this->m_rightArrow->setVisible(false);
+        }
+    }
+
+    void handlePageNavigation(bool forward) {
+        if (forward) {
+            if (this->m_fields->m_currentPage < 24) {
+                this->m_fields->m_currentPage++;
+            }
+        }
+        else {
+            if (this->m_fields->m_currentPage > 0) {
+                this->m_fields->m_currentPage--;
+            }
+        }
+
+        reloadCurrentPage();
+    }
+
+    void reloadCurrentPage() {
+        const int offset = this->m_fields->m_currentPage * 10;
+        LevelBrowserLayer::loadPage(
+            ListManager::getSearchObject(499 - offset, 489 - offset)
+        );
+        updateNavigationUI();
     }
 };
-

@@ -34,7 +34,7 @@
 	"settings": {
 		"show-list-position": {
 			"name": "Show List Position",
-			"description": "Adds text that shows the position of the Demon on the list (Top 1-499).",
+			"description": "Adds text that shows the position of Demons on the list (Top 1-499).",
 			"type": "bool",
 			"default": true
 		},

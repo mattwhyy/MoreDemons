@@ -19,7 +19,7 @@ The difficulties of Extreme Demons are chosen based on their positions on the [A
 - **Top 150 Demons** - Twisted Demon
 - **Top 75 Demons** - Diabolical Demon
 - **Top 25 Demons** - Infernal Demon
-- **Top 1 Demon** - Omega Demon *(optional)*
+- **Top 1 Demon** - Omega Demon
 
 ## Credits
 

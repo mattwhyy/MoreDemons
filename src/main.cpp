@@ -4,44 +4,80 @@
 #include <Geode/utils/web.hpp>
 #include "ListManager.h"
 #include <string>
+
 using namespace geode::prelude;
 
-class $modify(MenuLayer) {
+class $modify(CustomMenuLayer, MenuLayer) {
 
-	struct Fields {
+    struct Fields {
         EventListener<web::WebTask> m_listener;
-	};
+    };
 
-	bool init() {
-		if (!MenuLayer::init()) return false;
+    bool init() {
+        if (!MenuLayer::init()) {
+            return false;
+        }
 
-		if (ListManager::firstTimeOpen) {
-			return true;
-		}
+        if (ListManager::firstTimeOpen) {
+            return true;
+        }
 
-		m_fields->m_listener.bind([] (web::WebTask::Event* e) {
-            if (web::WebResponse* res = e->getValue()) {
-                auto str = res->string().unwrapOr("Failed.");
-				if (res->code() != 200 || str == "Failed." || str == "-1") {
-					ListManager::firstTimeOpen = true;
-					ListManager::filterType = -2;
-					std::string errorStr = "\n\n<cr>Could not load data from AREDL.</c>\nThe API could be down, but chances are, your internet just sucks.\n\n<cg>Restart your game to try again.</c>\n\n<cb>-Grandpa Demon</c>";
-					FLAlertLayer::create("What the??", str + errorStr, "OK")->show();
-					return;
-				}
+        this->setupDataFetch();
+        return true;
+    }
 
-				ListManager::parseRequestString(str);
-		 		ListManager::firstTimeOpen = true;
-		 		ListManager::filterType = -1;
-			
-			}
-        });
+private:
+    void setupDataFetch() {
+        m_fields->m_listener.bind([this](web::WebTask::Event* event) {
+            this->handleAPIResponse(event);
+            });
 
-		auto req = web::WebRequest();
-		m_fields->m_listener.setFilter(req.get("https://api.aredl.net/api/aredl/list"));
+        auto request = web::WebRequest();
+        m_fields->m_listener.setFilter(
+            request.get("https://api.aredl.net/api/aredl/list")
+        );
+    }
 
-		return true;
-	}
+    void handleAPIResponse(web::WebTask::Event * event) {
+        if (auto response = event->getValue()) {
+            auto responseString = response->string().unwrapOr("RequestFailed");
+
+            if (this->isInvalidResponse(response, responseString)) {
+                this->showConnectionError(responseString);
+                return;
+            }
+
+            this->processValidResponse(responseString);
+        }
+    }
+
+    bool isInvalidResponse(web::WebResponse * response, const std::string & content) {
+        return response->code() != 200 ||
+            content == "RequestFailed" ||
+            content == "-1";
+    }
+
+    void showConnectionError(const std::string & serverMessage) {
+        ListManager::firstTimeOpen = true;
+        ListManager::filterType = -2;
+
+        FLAlertLayer::create(
+            "Connection Issues",
+            fmt::format(
+                "<cj>Failed to retrieve demon list data.</c>\n"
+                "The AREDL servers might be temporarily unavailable, "
+                "or you might have network connectivity problems.\n"
+                "<co>Please try restarting Geometry Dash.</c>\n\n"
+                "<cg>Server response: {}</c>",
+                serverMessage
+            ),
+            "OK"
+        )->show();
+    }
+
+    void processValidResponse(const std::string & data) {
+        ListManager::parseRequestString(data);
+        ListManager::firstTimeOpen = true;
+        ListManager::filterType = -1;
+    }
 };
-
-

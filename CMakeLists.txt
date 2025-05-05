@@ -17,7 +17,6 @@ file(GLOB SOURCES
     src/EffectsManager.h
     src/DemonFilterSelectLayer.cpp
     src/LevelBrowserLayer.cpp
-    src/ParticleManager.h
 )
 
 # Set up the mod binary
