@@ -3,7 +3,7 @@ The **Extreme Demon** is the highest difficulty in Geometry Dash.
 But are **Tidal Wave** and **Acu** the same difficulty? I think not! 
 Want to change that? This mod is here for you!
 
-- The mod is based on the now-unmaintained **Grandpa Demon** mod, with improvements, additional features, and updated support.
+The mod is based on the now-outdated **[Grandpa Demon](https://github.com/ItzKiba/GrandpaDemon) by ItzKiba** mod, with improvements, additional features, and updated support.
 
 ## Features
 - Up to **6 new demon difficulties** above Extreme Demon!
@@ -11,8 +11,10 @@ Want to change that? This mod is here for you!
 
 *Additionally, the highest difficulties have their own backgrounds for the level page! (optional)*
 
-## New Demon Difficulties
-The difficulties of Extreme Demons are chosen based on their positions on the AREDL.
+![Title](resources/readme/difficulties.png)
+
+## New Difficulties
+The difficulties of Extreme Demons are chosen based on their positions on the [AREDL](https://aredl.net/).
 
 - **Top 500 Demons** - Brutal Demon
 - **Top 250 Demons** - Vicious Demon
@@ -21,6 +23,9 @@ The difficulties of Extreme Demons are chosen based on their positions on the AR
 - **Top 25 Demons** - Infernal Demon
 - **Top 1 Demon** - Omega Demon *(optional)*
 
-### Dependencies
+![Title](resources/readme/demons.png)
 
-**Note:** This mod requires **Node IDs** to work!
+## Credits
+
+- **ItzKiba** - the creator of the mod this mod is based on
+

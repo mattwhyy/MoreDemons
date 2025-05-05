@@ -33,10 +33,10 @@ class EffectsManager {
             auto winSize = CCDirector::sharedDirector()->getWinSize();
             ccBlendFunc blending = {GL_ONE, GL_ONE};
 
-            float bg1_maxAlpha = 90.f;
-            float bg1_offsetAlpha = 90.f;
+            float bg1_maxAlpha = 50.f;
+            float bg1_offsetAlpha = 50.f;
 
-            float bg2_maxAlpha = 90.f;
+            float bg2_maxAlpha = 50.f;
             float bg2_offsetAlpha = 50.f;
 
             CCObject* rObj;
@@ -56,7 +56,7 @@ class EffectsManager {
             float bg1_scale = winSize.width / bg1->getContentSize().width; 
             bg1->setOpacity(0);
             bg1->setScale(bg1_scale);
-            bg1->setColor({ 249, 249, 165 });
+            bg1->setColor({ 100, 100, 100 });
             layer->addChild(bg1);
             bg1->setAnchorPoint({0.5, 0});
             bg1->setPosition({winSize.width / 2, 0});
@@ -105,7 +105,7 @@ class EffectsManager {
             bg2->setBlendFunc(blending);
             bg2->setOpacity(0);
             bg2->setScale(bg1_scale * 2.f);
-            bg2->setColor({ 231, 231, 195 });
+            bg2->setColor({ 100, 100, 100 });
             layer->addChild(bg2);
             bg2->setAnchorPoint({0.5, 0});
             bg2->setPosition({winSize.width / 2, 0});

@@ -1,6 +1,6 @@
 {
 	"geode": "4.4.0",
-	"version": "v1.0.0",
+	"version": "v1.0.1",
 	"dependencies": {
 		"geode.node-ids": {
 			"version": ">=v1.20.1",
@@ -32,7 +32,13 @@
 	"settings": {
 		"show-list-position": {
 			"name": "Show List Position",
-			"description": "Adds text that shows the position of the Demon on the list.",
+			"description": "Adds text that shows the position of the Demon on the list (Top 1-499).",
+			"type": "bool",
+			"default": true
+		},
+		"show-extended-list-position": {
+			"name": "Show Extended List Position",
+			"description": "Adds text that shows the position of lower Demons on the list (Top 500-1149).",
 			"type": "bool",
 			"default": true
 		},

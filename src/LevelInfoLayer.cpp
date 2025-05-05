@@ -17,7 +17,7 @@ class $modify(GrDInfoLayer, LevelInfoLayer) {
     void updateDifficultyFace() {
 
         int aredlPos = ListManager::getPositionOfID(m_level->m_levelID);
-        if (aredlPos == -1 || aredlPos > 499) {
+        if (aredlPos == -1) {
             return;
         }
 
@@ -28,14 +28,8 @@ class $modify(GrDInfoLayer, LevelInfoLayer) {
         // Iterate through every object that is a direct child of the layer to find the difficulty face.
         CCObject* obj;
         CCARRAY_FOREACH(this->getChildren(), obj) {
-            // Check to see if the object is a sprite.
             if (CCSprite* newObj = dynamic_cast<CCSprite*>(obj)) {
-                // Check to see if the object is the demon difficulty icon
-                // Note that the child-index "stars-icon" doesn't appear to work all the time.
-                // Instead of using an absolute index, get the object that fits the following criteria:
-                if (newObj->getPosition() == m_difficultySprite->getPosition()
-                && newObj->getZOrder() == 3) {
-                    //newObj->setColor({0, 255, 0});
+                if (newObj->getPosition() == m_difficultySprite->getPosition() && newObj->getZOrder() == 3) {
                     originalIcon = newObj;
                     iconFound = true;
                     break;
@@ -43,114 +37,109 @@ class $modify(GrDInfoLayer, LevelInfoLayer) {
             }
         }
 
-        // If the demon face somehow isn't found, notify the user.
         if (originalIcon == nullptr || !iconFound) {
-            auto alert = FLAlertLayer::create("Error", "There was a problem loading the demon difficulty face.\nYour sceen resolution may not be supported.\n\n<cb>-Grandpa Demon</c>", "OK");
+            auto alert = FLAlertLayer::create("Error", "There was a problem loading the demon difficulty face.\nYour screen resolution may not be supported.\n\n<cb>-Grandpa Demon</c>", "OK");
             alert->m_scene = this;
             alert->show();
             return;
         }
 
-        CCSprite* newIcon = ListManager::getSpriteFromPosition(aredlPos, true);
-        //CCSprite* newIcon = CCSprite::createWithSpriteFrameName("GrD_demon0_text.png"_spr);
-        newIcon->setID("grd-difficulty");
-        
-        auto newPos = originalIcon->getPosition();
-        newIcon->setPosition(originalIcon->getPosition());
-        newIcon->setZOrder(originalIcon->getZOrder()+10);
-        
+        // Add custom sprite and effects only for positions 0–499
+        if (aredlPos <= 499) {
+            CCSprite* newIcon = ListManager::getSpriteFromPosition(aredlPos, true);
+            newIcon->setID("grd-difficulty");
 
-        CCObject* clearObj;
-        CCARRAY_FOREACH(originalIcon->getChildren(), clearObj) {
-            if (CCSprite* newObj = dynamic_cast<CCSprite*>(clearObj)) {
-                if (newObj->getTag() == 69420) {
-                    newObj->removeFromParentAndCleanup(true);
+            auto newPos = originalIcon->getPosition();
+            newIcon->setPosition(newPos);
+            newIcon->setZOrder(originalIcon->getZOrder() + 10);
+
+            // Clear any extra child objects from the original icon
+            CCObject* clearObj;
+            CCARRAY_FOREACH(originalIcon->getChildren(), clearObj) {
+                if (CCSprite* newObj = dynamic_cast<CCSprite*>(clearObj)) {
+                    if (newObj->getTag() == 69420) {
+                        newObj->removeFromParentAndCleanup(true);
+                    }
+                }
+            }
+
+            // Transfer children to the new icon
+            CCObject* iconObj;
+            CCARRAY_FOREACH(originalIcon->getChildren(), iconObj) {
+                if (CCSprite* newObj = dynamic_cast<CCSprite*>(iconObj)) {
+                    newObj->setTag(69420);
+                    this->addChild(newObj);
+                    newObj->setPosition(newPos);
+                }
+            }
+
+            originalIcon->setVisible(false);
+            this->addChild(newIcon);
+
+            // Add effects for positions 0–499
+            if (Mod::get()->getSettingValue<bool>("show-list-position")) {
+                if (aredlPos >= 0 && aredlPos <= 499) {
+                    float defaultPosY = originalIcon->getPositionY();
+                    auto label = CCLabelBMFont::create(fmt::format("#{}", aredlPos + 1).c_str(), "goldFont.fnt");
+                    label->setScale(0.4f);
+                    label->setAnchorPoint({ 0.5f, 0.5f });
+                    label->setPosition({ newIcon->getPositionX() + 26.f, newIcon->getPositionY() - 6.5f });
+                    label->setZOrder(newIcon->getZOrder() + 1);
+                    this->addChild(label);
                 }
             }
         }
 
-        CCObject* iconObj;
-        CCARRAY_FOREACH(originalIcon->getChildren(), iconObj) {
-            if (CCSprite* newObj = dynamic_cast<CCSprite*>(iconObj)) {
-                newObj->setTag(69420);
-                this->addChild(newObj);
-                newObj->setPosition(newPos);
-            }
-        }
-
-        originalIcon->setVisible(false);
-
-        this->addChild(newIcon);
-
-        if (Mod::get()->getSettingValue<bool>("show-list-position")) {
-            // Add "Top X" label if position is valid
-            if (aredlPos >= 0 && aredlPos <= 499) {
-                // Default Y position of the difficulty icon
+        // Always show white label for positions 500–1148
+        if (aredlPos >= 500 && aredlPos <= 1148) {
+            if (Mod::get()->getSettingValue<bool>("show-extended-list-position")) {
                 float defaultPosY = originalIcon->getPositionY();
-                auto label = CCLabelBMFont::create(fmt::format("#{}", aredlPos + 1).c_str(), "goldFont.fnt");
-                label->setScale(0.4f);
+                auto label = CCLabelBMFont::create(fmt::format("#{}", aredlPos + 1).c_str(), "bigFont.fnt");
+                label->setScale(0.3f);
                 label->setAnchorPoint({ 0.5f, 0.5f });
-
-                label->setPosition({ newIcon->getPositionX() + 26.f, newIcon->getPositionY() - 6.5f });
-
-                // Set the label's Z-order to be one higher than the icon's Z-order
-                label->setZOrder(newIcon->getZOrder() + 1);
-
-                // Add the label as a child to the current layer
+                label->setPosition({ originalIcon->getPositionX() + 26.f, originalIcon->getPositionY() - 6.5f });
+                label->setZOrder(originalIcon->getZOrder() + 1);
                 this->addChild(label);
             }
         }
-        
-        if (m_fields->m_hasBeenOpened) {
-            return;
-        }
 
+        // Handling background effects
         if (aredlPos <= 24) {
             EffectsManager::infinityBackground(this, aredlPos);
-
             if (!Mod::get()->getSettingValue<bool>("disable-bg")) {
-                bool isGrandpa = false;
-
-                if (aredlPos == 0 && !Mod::get()->getSettingValue<bool>("omega-demon-disable")) {
-                    isGrandpa = true;
-                }
-
+                bool isGrandpa = (aredlPos == 0 && !Mod::get()->getSettingValue<bool>("omega-demon-disable"));
                 auto particle1 = ParticleManager::infiniteParticles1(50, isGrandpa);
-                particle1->setPosition({newIcon->getPositionX(), newIcon->getPositionY() + 5.f});
+                particle1->setPosition({ originalIcon->getPositionX(), originalIcon->getPositionY() + 5.f });
                 this->addChild(particle1);
 
                 auto particle2 = ParticleManager::infiniteParticles2(50);
-                particle2->setPosition({newIcon->getPositionX(), newIcon->getPositionY() + 5.f});
+                particle2->setPosition({ originalIcon->getPositionX(), originalIcon->getPositionY() + 5.f });
                 this->addChild(particle2);
             }
-
         }
 
         if (aredlPos <= 74 && aredlPos > 24) {
             EffectsManager::mythicalBackground(this, aredlPos);
-
             if (!Mod::get()->getSettingValue<bool>("disable-bg")) {
                 auto particle = ParticleManager::mythicalParticles(50);
-                particle->setPosition({newIcon->getPositionX(), newIcon->getPositionY() + 5.f});
+                particle->setPosition({ originalIcon->getPositionX(), originalIcon->getPositionY() + 5.f });
                 this->addChild(particle);
             }
-            
         }
 
         if (aredlPos <= 149 && aredlPos > 74) {
             EffectsManager::legendaryBackground(this, aredlPos);
-
             if (!Mod::get()->getSettingValue<bool>("disable-bg")) {
                 auto particle = ParticleManager::legendaryParticles(50);
-                particle->setPosition({newIcon->getPositionX(), newIcon->getPositionY() + 5.f});
+                particle->setPosition({ originalIcon->getPositionX(), originalIcon->getPositionY() + 5.f });
                 this->addChild(particle);
             }
-      
         }
-        
+
         m_fields->m_hasBeenOpened = true;
         return;
     }
+
 
     void updateLabelValues() {
         LevelInfoLayer::updateLabelValues();
