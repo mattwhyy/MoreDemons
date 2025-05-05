@@ -22,9 +22,6 @@
 			],
 			"MoreDemons_IconSheet": [
 				"resources/difficulty_icons/*.png"
-			],
-			"MoreDemons_ReadmeSheet": [
-				"resources/readme/*.png"
 			]
 		},
 		"sprites": [
