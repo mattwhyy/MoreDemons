@@ -2,7 +2,7 @@
 #include <Geode/modify/LevelBrowserLayer.hpp>
 #include "ListManager.h"
 
-class $modify(GrDLevelBrowserLayer, LevelBrowserLayer) {
+class $modify(MDLevelBrowserLayer, LevelBrowserLayer) {
 
     struct Fields {
         int m_currentPage = 0;
@@ -29,18 +29,6 @@ class $modify(GrDLevelBrowserLayer, LevelBrowserLayer) {
         LevelBrowserLayer::init(ListManager::getSearchObject(499, 489));
         return true;
     }
-
-    // TodoReturn loadPage(GJSearchObject* p0) {
-
-    //     if (!ListManager::isSupremeSearching) {
-    //         LevelBrowserLayer::loadPage(p0);
-    //         return;
-    //     }
-
-    //     LevelBrowserLayer::loadPage(p0);
-    //     return;
-        
-    // }
 
     void loadLevelsFinished(cocos2d::CCArray* p0, char const* p1, int p2) {
         LevelBrowserLayer::loadLevelsFinished(p0, p1, p2);

@@ -8,7 +8,7 @@
 
 using namespace geode::prelude;
 
-class $modify(GrDInfoLayer, LevelInfoLayer) {
+class $modify(MDInfoLayer, LevelInfoLayer) {
 
     struct Fields {
         bool m_hasBeenOpened = false;
@@ -47,7 +47,7 @@ class $modify(GrDInfoLayer, LevelInfoLayer) {
         // Add custom sprite and effects only for positions 0–499
         if (aredlPos <= 499) {
             CCSprite* newIcon = ListManager::getSpriteFromPosition(aredlPos, true);
-            newIcon->setID("grd-difficulty");
+            newIcon->setID("MD-difficulty");
 
             auto newPos = originalIcon->getPosition();
             newIcon->setPosition(newPos);
@@ -107,7 +107,7 @@ class $modify(GrDInfoLayer, LevelInfoLayer) {
         if (aredlPos <= 24) {
             EffectsManager::infinityBackground(this, aredlPos);
             if (!Mod::get()->getSettingValue<bool>("disable-bg")) {
-                bool isGrandpa = (aredlPos == 0 && !Mod::get()->getSettingValue<bool>("omega-demon-disable"));
+                bool isGrandpa = (aredlPos == 0);
                 auto particle1 = ParticleManager::infiniteParticles1(50, isGrandpa);
                 particle1->setPosition({ originalIcon->getPositionX(), originalIcon->getPositionY() + 5.f });
                 this->addChild(particle1);

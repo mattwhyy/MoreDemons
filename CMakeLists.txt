@@ -15,10 +15,8 @@ file(GLOB SOURCES
     src/LevelInfoLayer.cpp
     src/LevelCell.cpp
     src/EffectsManager.h
-    src/LevelSearchLayer.cpp
     src/DemonFilterSelectLayer.cpp
     src/LevelBrowserLayer.cpp
-    src/CreatorLayer.cpp
     src/ParticleManager.h
 )
 

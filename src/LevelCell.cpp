@@ -30,7 +30,7 @@ class $modify(LevelCell) {
         CCARRAY_FOREACH(m_mainLayer->getChildren(), obj) {
             if (CCNode* newObj = dynamic_cast<CCNode*>(obj)) {
                 if (newObj->getZOrder() == 2) {
-                    newObj->setID("grd-demon-icon-layer");
+                    newObj->setID("difficulty-icon-layer");
                     CCObject* obj2;
                     CCARRAY_FOREACH(newObj->getChildren(), obj2) {
                         if (CCSprite* newObj2 = dynamic_cast<CCSprite*>(obj2)) {
@@ -52,7 +52,7 @@ class $modify(LevelCell) {
             if (aredlPos >= 0 && aredlPos <= 499) {
                 CCSprite* newIcon = ListManager::getSpriteFromPosition(aredlPos, false);
                 //CCSprite* newIcon = CCSprite::createWithSpriteFrameName("GrD_demon0.png"_spr);
-                auto layer = m_mainLayer->getChildByID("grd-demon-icon-layer");
+                auto layer = m_mainLayer->getChildByID("difficulty-icon-layer");
 
                 auto newPos = originalIcon->getPosition();
                 newIcon->setPosition(originalIcon->getPosition());
@@ -86,7 +86,7 @@ class $modify(LevelCell) {
                     label->setScale(0.4f);
                     label->setAnchorPoint({ 0.5f, 0.5f });
 
-                    if (CCNode* difficultyContainer = m_mainLayer->querySelector("grd-demon-icon-layer")) {
+                    if (CCNode* difficultyContainer = m_mainLayer->querySelector("difficulty-icon-layer")) {
                         if (CCNode* coin1 = difficultyContainer->querySelector("coin-icon-1")) {
                             coin1->setPositionY({ coin1->getPositionY() + 3.f });
                             label->setPosition({ newIcon->getPositionX() +26.f, newIcon->getPositionY() -6.5f});
@@ -119,7 +119,7 @@ class $modify(LevelCell) {
                 label->setScale(0.3f);
                 label->setAnchorPoint({ 0.5f, 0.5f });
 
-                if (CCNode* difficultyContainer = m_mainLayer->querySelector("grd-demon-icon-layer")) {
+                if (CCNode* difficultyContainer = m_mainLayer->querySelector("difficulty-icon-layer")) {
                     if (CCNode* coin1 = difficultyContainer->querySelector("coin-icon-1")) {
                         coin1->setPositionY({ coin1->getPositionY() + 3.f });
                         label->setPosition({ originalIcon->getPositionX() + 26.f, originalIcon->getPositionY() - 6.5f });

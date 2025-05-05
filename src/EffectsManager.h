@@ -51,7 +51,7 @@ class EffectsManager {
 
             // BG 1
 
-            CCSprite* bg1 = CCSprite::create("GrD_demon4_bg.png"_spr);
+            CCSprite* bg1 = CCSprite::create("background_gradient.png"_spr);
             bg1->setBlendFunc(blending);
             float bg1_scale = winSize.width / bg1->getContentSize().width; 
             bg1->setOpacity(0);
@@ -101,7 +101,7 @@ class EffectsManager {
 
             // BG 2
 
-            CCSprite* bg2 = CCSprite::create("GrD_demon4_bg.png"_spr);
+            CCSprite* bg2 = CCSprite::create("background_gradient.png"_spr);
             bg2->setBlendFunc(blending);
             bg2->setOpacity(0);
             bg2->setScale(bg1_scale * 2.f);
@@ -146,7 +146,7 @@ class EffectsManager {
             bg2->runAction(move_rseq2);
             bg2->runAction(alpha_rseq2);
 
-            if (aredlPos == 0 && !Mod::get()->getSettingValue<bool>("omega-demon-disable")) {
+            if (aredlPos == 0) {
                 bg1->setColor({ 0, 0, 0 });
                 bg2->setColor({ 95, 0, 0 });
                 bg->setColor({ 22, 22, 22 });
@@ -194,7 +194,7 @@ class EffectsManager {
 
             // BG 1
 
-            CCSprite* bg1 = CCSprite::create("GrD_demon4_bg.png"_spr);
+            CCSprite* bg1 = CCSprite::create("background_gradient.png"_spr);
             bg1->setBlendFunc(blending);
             float bg1_scale = winSize.width / bg1->getContentSize().width; 
             bg1->setOpacity(0);
@@ -279,7 +279,7 @@ class EffectsManager {
 
             // BG 1
 
-            CCSprite* bg1 = CCSprite::create("GrD_demon4_bg.png"_spr);
+            CCSprite* bg1 = CCSprite::create("background_gradient.png"_spr);
             bg1->setBlendFunc(blending);
             float bg1_scale = winSize.width / bg1->getContentSize().width; 
             bg1->setOpacity(0);
